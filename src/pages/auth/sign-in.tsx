@@ -4,25 +4,26 @@ import { Label } from '@/components/ui/label'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-const formSchema = z.object({
+const signInSchema = z.object({
   email: z.string().email(),
 })
 
-type IFormSchema = z.infer<typeof formSchema>
+type ISignInSchema = z.infer<typeof signInSchema>
 
 function SignIn() {
   const {
     register,
     handleSubmit,
     formState: { isSubmitting },
-  } = useForm<IFormSchema>({
-    resolver: zodResolver(formSchema),
+  } = useForm<ISignInSchema>({
+    resolver: zodResolver(signInSchema),
   })
 
-  function handleSignIn(data: IFormSchema) {
+  function handleSignIn(data: ISignInSchema) {
     console.log(data)
 
     toast.success('O link de autenticação foi enviado ao seu e-mail!', {
@@ -39,6 +40,10 @@ function SignIn() {
     <>
       <Helmet title="Login" />
       <div className="p-8">
+        <Button variant="ghost" asChild className="absolute right-8 top-8">
+          <Link to="/sign-up">Novo estabelecimento</Link>
+        </Button>
+
         <div className="flex w-[350px] flex-col justify-center gap-6">
           <header className="flex flex-col gap-2 text-center">
             <h1 className="text-2xl font-semibold tracking-tight">
