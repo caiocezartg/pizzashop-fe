@@ -1,16 +1,13 @@
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { ArrowRight, Search, X } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
 import OrderTableRow from './order-table-row'
+import OrderTableFilter from './order-table-filter'
 
 export function Orders() {
   return (
@@ -20,10 +17,7 @@ export function Orders() {
         <h1 className="text-3xl font-bold tracking-tight">Pedidos</h1>
       </div>
       <div className="space-y-2.5">
-        <form className="flex items-center gap-2">
-          <span className="text-sm font-semibold">Filtros:</span>
-          <Input placeholder="Nome do cliente" className="h-8 w-[320px]" />
-        </form>
+        <OrderTableFilter />
 
         <div className="rounded-md border">
           <Table>
