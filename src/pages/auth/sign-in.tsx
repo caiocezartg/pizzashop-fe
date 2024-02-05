@@ -1,7 +1,9 @@
+import { signIn } from '@/api/sign-in'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
@@ -23,17 +25,25 @@ function SignIn() {
     resolver: zodResolver(signInSchema),
   })
 
-  function handleSignIn(data: ISignInSchema) {
-    console.log(data)
+  const { mutateAsync: authenticate } = useMutation({
+    mutationFn: signIn,
+  })
 
-    toast.success('O link de autenticação foi enviado ao seu e-mail!', {
-      action: {
-        label: 'Reenviar',
-        onClick: () => {
-          handleSignIn(data)
+  async function handleSignIn(data: ISignInSchema) {
+    try {
+      await authenticate({ email: data.email })
+
+      toast.success('O link de autenticação foi enviado ao seu e-mail!', {
+        action: {
+          label: 'Reenviar',
+          onClick: () => {
+            handleSignIn(data)
+          },
         },
-      },
-    })
+      })
+    } catch (error) {
+      toast.error('Credenciais inválidas.')
+    }
   }
 
   return (
