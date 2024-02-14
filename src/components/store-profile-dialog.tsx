@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Button } from './ui/button'
 import {
   DialogClose,
@@ -26,6 +26,8 @@ const storeProfileSchema = z.object({
 type StoreProfileSchema = z.infer<typeof storeProfileSchema>
 
 export default function StoreProfileDialog() {
+  const queryClient = useQueryClient()
+
   const { data: managedRestaurant } = useQuery({
     queryKey: ['managed-restaurant'],
     queryFn: getManagedRestaurant,
@@ -46,6 +48,9 @@ export default function StoreProfileDialog() {
 
   const { mutateAsync: updateProfileFn } = useMutation({
     mutationFn: updateProfile,
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ['managed-restaurant'] })
+    },
   })
 
   async function handleUpdateProfile(data: StoreProfileSchema) {
