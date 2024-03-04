@@ -1,4 +1,4 @@
-type OrderStatus =
+export type OrderStatusList =
   | 'pending'
   | 'canceled'
   | 'processing'
@@ -6,10 +6,10 @@ type OrderStatus =
   | 'delivered'
 
 interface OrderStatusProps {
-  status: OrderStatus
+  status: OrderStatusList
 }
 
-const orderStatusMap: Record<OrderStatus, string> = {
+const orderStatusMap: Record<OrderStatusList, string> = {
   pending: 'Pendente',
   canceled: 'Cancelado',
   processing: 'Em preparo',
@@ -17,7 +17,7 @@ const orderStatusMap: Record<OrderStatus, string> = {
   delivered: 'Entregue',
 }
 
-export default function OrderStatus({ status }: OrderStatusProps) {
+export default function OrderStatusList({ status }: OrderStatusProps) {
   return (
     <div className="flex items-center gap-2">
       {status === 'pending' && (
